@@ -2,17 +2,21 @@ package karrel.kr.co.bitmapmasksample
 
 import android.content.Context
 import android.graphics.*
+import android.graphics.drawable.BitmapDrawable
 import android.util.AttributeSet
-import android.view.View
+import android.widget.ImageView
 
 
 /**
  * Created by Rell on 2019. 2. 8..
  */
 class MaskView @JvmOverloads
-constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : View(context, attrs, defStyleAttr) {
+constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
+    ImageView(context, attrs, defStyleAttr) {
 
     private var angle: Float = 0.0f
+
+    private var srcBitmap: Bitmap? = null
 
 
     override fun onDraw(canvas: Canvas) {
@@ -21,11 +25,12 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 
         val paint = Paint()
 
-        val progress = BitmapFactory.decodeResource(context.resources, R.drawable.progress)
+        if (srcBitmap == null) {
+            val drawable = drawable as BitmapDrawable
+            srcBitmap = Bitmap.createScaledBitmap(drawable.bitmap, width, height, false)
+        }
 
-        val left = (width - progress.width) / 2f
-        val top = (height - progress.height) / 2f
-        tmpCanvas.drawBitmap(progress, left, top, paint) // 프로그레스 이미지 그림
+        tmpCanvas.drawBitmap(srcBitmap, 0f, 0f, paint) // 프로그레스 이미지 그림
         paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_IN) // 트랜스퍼모드 적용
 
         tmpCanvas.drawBitmap(bitmapSector(), 0f, 0f, paint)  // 부채골 이미지 그림
