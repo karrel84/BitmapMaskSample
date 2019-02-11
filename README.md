@@ -6,7 +6,7 @@
 
 일단 리소스에서 해당 이미지를 가져와서 bitmap으로 만들어줍니다.
 
-₩₩₩val progress = BitmapFactory.decodeResource(context.resources, R.drawable.progress₩₩₩
+```val progress = BitmapFactory.decodeResource(context.resources, R.drawable.progress```
 
 
 그리고 마스킹 처리할 부채꼴 모양의 도형을 비트맵으로 그려줍니다.
